@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="favicon.png" />
     <title>Расписание П-КРП-201М</title>
     <link
       href="https://fonts.googleapis.com/css?family=Nunito:800i&display=swap"
@@ -474,11 +474,18 @@
     <p id="noClasses">Нет занятий в этот день.</p>
 
     <div id="visitCounter">
-      <a href="https://www.free-counters.org/" style="display: none;">&#128525;</a>
+      <a href="https://www.free-counters.org/" style="display: none"
+        >&#128525;</a
+      >
     </div>
 
     <div id="footer" style="text-align: center; margin-top: 20px">
-      <img src="./assets/original.gif" alt="GIF" style="max-width: 300px" loading="lazy" />
+      <img
+        src="assets/original.gif"
+        alt="GIF"
+        style="max-width: 300px"
+        loading="lazy"
+      />
     </div>
 
     <script>
@@ -792,7 +799,8 @@
 
         var authScript = document.createElement("script");
         authScript.type = "text/javascript";
-        authScript.src = "https://www.freevisitorcounters.com/auth.php?id=4b45d7ac8cd0cbd359fe86bea89aa3b3e591d5c6";
+        authScript.src =
+          "https://www.freevisitorcounters.com/auth.php?id=4b45d7ac8cd0cbd359fe86bea89aa3b3e591d5c6";
         authScript.onload = function () {
           // Переопределяем document.write для counter скрипта
           document.write = function (content) {
@@ -801,12 +809,13 @@
 
           var counterScript = document.createElement("script");
           counterScript.type = "text/javascript";
-          counterScript.src = "https://www.freevisitorcounters.com/en/home/counter/1428221/t/5";
+          counterScript.src =
+            "https://www.freevisitorcounters.com/en/home/counter/1428221/t/5";
           counterScript.onload = function () {
             // Восстанавливаем оригинальный document.write
             document.write = originalWrite;
           };
-          document.body.appendChild(counterScript);  // Append to body to ensure execution
+          document.body.appendChild(counterScript); // Append to body to ensure execution
         };
         document.body.appendChild(authScript);
       });
