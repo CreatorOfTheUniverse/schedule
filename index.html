@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Расписание П-КРП-201М (1 семестр 2025-2026)</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:800i&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 20px;
+        background-color: #f8f9fa;
+        color: #333;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      body.dark {
+        background-color: #121212;
+        color: #e0e0e0;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      body.dark h1 {
+        color: #fff;
+      }
+      p {
+        text-align: center;
+        color: #666;
+      }
+      body.dark p {
+        color: #bbb;
+      }
+      .filter {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      #datePicker {
+        padding: 8px;
+        width: 200px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: none;
+      }
+      @media (min-width: 1024px) {
+        #scheduleTable {
+          width: 80%;
+          margin: 0 auto;
+        }
+      }
+      body.dark table {
+        box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+      }
+      body.dark th,
+      body.dark td {
+        border: 1px solid #444;
+      }
+      th {
+        background-color: #007bff;
+        color: white;
+      }
+      body.dark th {
+        background-color: #003f88;
+      }
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      body.dark tr:nth-child(even) {
+        background-color: #1e1e1e;
+      }
+      tr:hover {
+        background-color: #e9ecef;
+      }
+      body.dark tr:hover {
+        background-color: #2a2a2a;
+      }
+      #noClasses {
+        text-align: center;
+        color: red;
+        display: none;
+      }
+      body.dark #noClasses {
+        color: #ff6666;
+      }
+      #visitCounter {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 16px;
+      }
+      @media (max-width: 768px) {
+        table {
+          font-size: 14px;
+        }
+        th,
+        td {
+          padding: 8px;
+        }
+      }
+
+      #hide-checkbox {
+        opacity: 0;
+        height: 0;
+        width: 0;
+      }
+
+      .toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        cursor: pointer;
+        display: inline-block;
+        width: 100px;
+        height: 50px;
+        background: #211042;
+        border-radius: 25px;
+        transition: 500ms;
+        overflow: hidden;
+        -webkit-box-shadow: 0px 0px 7px 4px rgba(136, 143, 148, 0.2);
+        -moz-box-shadow: 0px 0px 7px 4px rgba(136, 143, 148, 0.2);
+        box-shadow: 0px 0px 7px 4px rgba(136, 143, 148, 0.2);
+        -moz-user-select: none;
+        -o-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      .toggle-button {
+        position: absolute;
+        display: inline-block;
+        top: 3.5px;
+        left: 3px;
+        width: 43px;
+        height: 43px;
+        border-radius: 50%;
+        background: #faeaf1;
+        overflow: hidden;
+        box-shadow: 0 0 17.5px 2px rgba(255, 255, 255);
+        transition: all 500ms ease-out;
+      }
+
+      .crater {
+        position: absolute;
+        display: inline-block;
+        background: #faeaf1;
+        border-radius: 50%;
+        transition: 500ms;
+      }
+
+      .crater-1 {
+        background: #fffff9;
+        width: 43px;
+        height: 43px;
+        left: 5px;
+        bottom: 5px;
+      }
+
+      .crater-2 {
+        width: 10px;
+        height: 10px;
+        top: -3.5px;
+        left: 22px;
+      }
+
+      .crater-3 {
+        width: 8px;
+        height: 8px;
+        top: 10px;
+        right: -2px;
+      }
+
+      .crater-4 {
+        width: 5px;
+        height: 5px;
+        top: 12px;
+        left: 15px;
+      }
+
+      .crater-5 {
+        width: 7.5px;
+        height: 7.5px;
+        top: 20px;
+        left: 24px;
+      }
+
+      .crater-6 {
+        width: 5px;
+        height: 5px;
+        top: 24px;
+        left: 10px;
+      }
+
+      .crater-7 {
+        width: 6px;
+        height: 6px;
+        bottom: 2.5px;
+        left: 17.5px;
+      }
+
+      .star {
+        position: absolute;
+        display: inline-block;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0.5px 0 1px 1px rgba(255, 255, 255);
+      }
+
+      .star-1 {
+        width: 3px;
+        height: 3px;
+        right: 45px;
+        bottom: 20px;
+      }
+
+      .star-2 {
+        width: 4px;
+        height: 4px;
+        right: 35px;
+        top: 5px;
+      }
+
+      .star-3 {
+        width: 2.5px;
+        height: 2.5px;
+        right: 30px;
+        bottom: 7.5px;
+      }
+
+      .star-4 {
+        width: 1.5px;
+        height: 1.5px;
+        right: 20px;
+        bottom: 25px;
+      }
+
+      .star-5 {
+        width: 2px;
+        height: 2px;
+        right: 5px;
+        bottom: 17.5px;
+      }
+
+      .star-6,
+      .star-7,
+      .star-8 {
+        width: 5px;
+        height: 1px;
+        border-radius: 1px;
+        transform: rotate(-45deg);
+        box-shadow: 2.5px 0px 2px 0.5px #fff;
+        animation-name: travel;
+        animation-duration: 1.5s;
+        animation-timing-function: ease-out;
+        animation-iteration-count: infinite;
+      }
+
+      .star-6 {
+        right: 15px;
+        bottom: 15px;
+        animation-delay: -2s;
+      }
+
+      .star-7 {
+        right: 25px;
+        bottom: 30px;
+      }
+
+      .star-8 {
+        right: 45px;
+        top: 5px;
+        animation-delay: -4s;
+      }
+
+      @keyframes travel {
+        0% {
+          transform: rotate(-45deg) translateX(35px);
+        }
+
+        50% {
+          transform: rotate(-45deg) translateX(-10px);
+          box-shadow: 2.5px 0px 3px 0.5px #fff;
+        }
+
+        100% {
+          transform: rotate(-45deg) translateX(-15px);
+          width: 1px;
+          height: 1px;
+          opacity: 0;
+          box-shadow: none;
+        }
+      }
+
+      #hide-checkbox:checked + .toggle {
+        background: #24d7f7;
+      }
+
+      #hide-checkbox:checked + .toggle .toggle-button {
+        background: #f7ffff;
+        transform: translateX(51px);
+        box-shadow: 0 0 17.5px 2.5px rgba(255, 255, 255);
+      }
+
+      #hide-checkbox:checked + .toggle .toggle-button .crater {
+        transform: rotate(-45deg) translateX(35px);
+      }
+
+      #hide-checkbox:checked + .toggle .star {
+        animation: move 2s infinite;
+        transform: none;
+        box-shadow: none;
+      }
+
+      #hide-checkbox:checked + .toggle .star-1 {
+        width: 20px;
+        height: 5px;
+        border-radius: 5px;
+        background: #fff;
+        left: 10px;
+        top: 12.5px;
+        box-shadow: none;
+      }
+
+      #hide-checkbox:checked + .toggle .star-2 {
+        width: 6px;
+        height: 6px;
+        background: #fff;
+        left: 13px;
+        top: 11.5px;
+        box-shadow: -0.5px 0 1px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      #hide-checkbox:checked + .toggle .star-3 {
+        width: 8px;
+        height: 8px;
+        background: #fff;
+        left: 17.5px;
+        top: 9.5px;
+        box-shadow: -0.5px 0 1px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      #hide-checkbox:checked + .toggle .star-4 {
+        width: 7px;
+        height: 7px;
+        background: #fff;
+        left: 23px;
+        top: 10.5px;
+        box-shadow: -0.5px 0 1px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      #hide-checkbox:checked + .toggle .star-5 {
+        width: 30px;
+        height: 7.5px;
+        border-radius: 7.5px;
+        background: #fff;
+        left: 15px;
+        bottom: 10px;
+        box-shadow: none;
+      }
+
+      #hide-checkbox:checked + .toggle .star-6 {
+        width: 9px;
+        height: 9px;
+        background: #fff;
+        border-radius: 50%;
+        left: 19px;
+        bottom: 10px;
+        box-shadow: -0.5px 0 1px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      #hide-checkbox:checked + .toggle .star-7 {
+        width: 12px;
+        height: 12px;
+        background: #fff;
+        border-radius: 50%;
+        left: 26px;
+        bottom: 10px;
+        box-shadow: -0.5px 0 1px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      #hide-checkbox:checked + .toggle .star-8 {
+        width: 10.5px;
+        height: 10.5px;
+        background: #fff;
+        border-radius: 50%;
+        left: 35px;
+        top: 29.5px;
+        box-shadow: -0.5px 0 1px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      @keyframes move {
+        0% {
+          transform: none;
+        }
+        
+        25% {
+          transform: translateX(1px);
+        }
+        
+        100% {
+          transform: translateX(-1px);
+        }
+      }
+
+    </style>
+  </head>
+  <body class="dark">
+    <input type="checkbox" id="hide-checkbox">
+    <label for="hide-checkbox" class="toggle">
+      <span class="toggle-button">
+        <span class="crater crater-1"></span>
+        <span class="crater crater-2"></span>
+        <span class="crater crater-3"></span>
+        <span class="crater crater-4"></span>
+        <span class="crater crater-5"></span>
+        <span class="crater crater-6"></span>
+        <span class="crater crater-7"></span>
+        <span class="star star-1"></span>
+        <span class="star star-2"></span>
+        <span class="star star-3"></span>
+        <span class="star star-4"></span>
+        <span class="star star-5"></span>
+        <span class="star star-6"></span>
+        <span class="star star-7"></span>
+        <span class="star star-8"></span>
+      </span>
+    </label>
+
+    <h1>Расписание занятий для группы П-КРП-201М</h1>
+    <p>1 семестр 2025–2026 учебного года, 2 курс магистратуры, очная форма.</p>
+
+    <div class="filter">
+      <label>Выберите дату: </label>
+      <input
+        type="date"
+        id="datePicker"
+        value="2025-10-31"
+        min="2025-09-01"
+        max="2025-12-31"
+      />
+    </div>
+
+    <table id="scheduleTable">
+      <thead>
+        <tr>
+          <th>Время</th>
+          <th>Дисциплина</th>
+          <th>Преподаватель</th>
+          <th>Тип занятия</th>
+        </tr>
+      </thead>
+      <tbody id="scheduleBody"></tbody>
+    </table>
+    <p id="noClasses">Нет занятий в этот день.</p>
+
+    <div id="visitCounter">
+      <a href="https://www.free-counters.org/">powered by Free-Counters</a>
+      <script
+        type="text/javascript"
+        src="https://www.freevisitorcounters.com/auth.php?id=4b45d7ac8cd0cbd359fe86bea89aa3b3e591d5c6"
+      ></script>
+      <script
+        type="text/javascript"
+        src="https://www.freevisitorcounters.com/en/home/counter/1428221/t/5"
+      ></script>
+    </div>
+
+    <div id="footer" style="text-align: center; margin-top: 20px">
+      <img
+        src="https://static.wikia.nocookie.net/2aadf644-e4d5-42a1-af94-1600a7beda9c/scale-to-width/755"
+        alt="Мотивационный GIF по психологии"
+        style="max-width: 300px"
+      />
+    </div>
+
+    <script>
+      const scheduleData = [
+        {
+          day: "Понедельник",
+          time: "15:10-16:30",
+          subject: "Психология суицидального поведения",
+          teacher: "Латыпова Э.Р.",
+          type: "ПЗ",
+          start: "2025-10-27",
+          end: "2025-12-22",
+        },
+        {
+          day: "Понедельник",
+          time: "16:45-18:05",
+          subject: "Психология суицидального поведения",
+          teacher: "Латыпова Э.Р.",
+          type: "ПЗ",
+          start: "2025-10-27",
+          end: "2025-12-22",
+        },
+        {
+          day: "Понедельник",
+          time: "18:20-19:40",
+          subject: "Практикум по работе с кризисными ситуациями",
+          teacher: "Озерова Л.Л.",
+          type: "ЛК",
+          start: "2025-09-08",
+          end: "2025-10-06",
+        },
+        {
+          day: "Понедельник",
+          time: "18:20-19:40",
+          subject: "Практикум по работе с кризисными ситуациями",
+          teacher: "Озерова Л.Л.",
+          type: "ПЗ",
+          start: "2025-10-27",
+          end: "2025-11-24",
+        },
+        {
+          day: "Понедельник",
+          time: "18:20-19:40",
+          subject: "Психологическая помощь при шоковых травмах",
+          teacher: "Озерова Л.Л.",
+          type: "ЛК",
+          start: "2025-12-01",
+          end: "2025-12-29",
+        },
+        {
+          day: "Понедельник",
+          time: "19:55-21:15",
+          subject: "Практикум по работе с кризисными ситуациями",
+          teacher: "Озерова Л.Л.",
+          type: "ЛК",
+          start: "2025-09-08",
+          end: "2025-09-29",
+        },
+        {
+          day: "Понедельник",
+          time: "19:55-21:15",
+          subject: "Практикум по работе с кризисными ситуациями",
+          teacher: "Озерова Л.Л.",
+          type: "ПЗ",
+          start: "2025-10-27",
+          end: "2025-11-17",
+        },
+        {
+          day: "Понедельник",
+          time: "19:55-21:15",
+          subject: "Психологическая помощь при шоковых травмах",
+          teacher: "Озерова Л.Л.",
+          type: "ЛК",
+          start: "2025-11-24",
+          end: "2025-12-29",
+        },
+
+        {
+          day: "Вторник",
+          time: "15:10-16:30",
+          subject: "Психология суицидального поведения",
+          teacher: "Латыпова Э.Р.",
+          type: "ЛК",
+          start: "2025-10-14",
+          end: "2025-12-09",
+        },
+        {
+          day: "Вторник",
+          time: "18:20-19:40",
+          subject: "Психологическая помощь при шоковых травмах",
+          teacher: "Озерова Л.Л.",
+          type: "ПЗ",
+          start: "2025-12-02",
+          end: "2025-12-30",
+        },
+        {
+          day: "Вторник",
+          time: "19:55-21:15",
+          subject: "Психологическая помощь при шоковых травмах",
+          teacher: "Озерова Л.Л.",
+          type: "ПЗ",
+          start: "2025-12-02",
+          end: "2025-12-23",
+        },
+
+        {
+          day: "Среда",
+          time: "15:10-16:30",
+          subject:
+            "Качественные и количественные методы исследований в психологии",
+          teacher: "Тулитбаева Г.Ф.",
+          type: "ПЗ",
+          start: "2025-10-15",
+          end: "2025-12-10",
+        },
+        {
+          day: "Среда",
+          time: "16:45-18:05",
+          subject:
+            "Качественные и количественные методы исследований в психологии",
+          teacher: "Тулитбаева Г.Ф.",
+          type: "ПЗ",
+          start: "2025-10-15",
+          end: "2025-12-10",
+        },
+        {
+          day: "Среда",
+          time: "18:20-19:40",
+          subject: "Работа с детской психологической травмой",
+          teacher: "Озерова Л.Л.",
+          type: "ЛК",
+          start: "2025-11-20",
+          end: "2025-12-18",
+        },
+        {
+          day: "Среда",
+          time: "19:55-21:15",
+          subject: "Работа с детской психологической травмой",
+          teacher: "Озерова Л.Л.",
+          type: "ЛК",
+          start: "2025-11-20",
+          end: "2025-12-18",
+        },
+
+        {
+          day: "Четверг",
+          time: "18:20-19:40",
+          subject: "Иностранный язык в профессиональной деятельности",
+          teacher: "Миндиахметова Р.М.",
+          type: "ПЗ",
+          start: "2025-09-11",
+          end: "2025-11-13",
+        },
+        {
+          day: "Четверг",
+          time: "18:20-19:40",
+          subject: "Работа с детской психологической травмой",
+          teacher: "Озерова Л.Л.",
+          type: "ПЗ",
+          start: "2025-11-21",
+          end: "2025-12-19",
+        },
+        {
+          day: "Четверг",
+          time: "19:55-21:15",
+          subject: "Иностранный язык в профессиональной деятельности",
+          teacher: "Миндиахметова Р.М.",
+          type: "ПЗ",
+          start: "2025-09-11",
+          end: "2025-11-13",
+        },
+        {
+          day: "Четверг",
+          time: "19:55-21:15",
+          subject: "Работа с детской психологической травмой",
+          teacher: "Озерова Л.Л.",
+          type: "ПЗ",
+          start: "2025-11-21",
+          end: "2025-12-19",
+        },
+
+        {
+          day: "Пятница",
+          time: "16:45-18:05",
+          subject: "Современные основы консультативной психологии",
+          teacher: "Крушанова Р.Р.",
+          type: "ПЗ",
+          start: "2025-10-17",
+          end: "2025-11-14",
+        },
+        {
+          day: "Пятница",
+          time: "18:20-19:40",
+          subject: "Современные основы консультативной психологии",
+          teacher: "Крушанова Р.Р.",
+          type: "ПЗ",
+          start: "2025-10-17",
+          end: "2025-11-14",
+        },
+
+        {
+          day: "Суббота",
+          time: "09:35-10:55",
+          subject:
+            "Качественные и количественные методы исследований в психологии",
+          teacher: "Тулитбаева Г.Ф.",
+          type: "ЛБ",
+          start: "2025-10-11",
+          end: "2025-12-06",
+        },
+        {
+          day: "Суббота",
+          time: "11:35-12:55",
+          subject:
+            "Качественные и количественные методы исследований в психологии",
+          teacher: "Тулитбаева Г.Ф.",
+          type: "ЛБ",
+          start: "2025-10-11",
+          end: "2025-12-06",
+        },
+      ];
+
+      const daysMap = {
+        1: "Понедельник",
+        2: "Вторник",
+        3: "Среда",
+        4: "Четверг",
+        5: "Пятница",
+        6: "Суббота",
+        0: "Воскресенье",
+      };
+
+      function timeToMinutes(time) {
+        const [hours, minutes] = time.split(":").map(Number);
+        return hours * 60 + minutes;
+      }
+
+      function showSchedule() {
+        const selectedDateStr = document.getElementById("datePicker").value;
+        const selectedDate = new Date(selectedDateStr);
+        const dayOfWeek = daysMap[selectedDate.getDay()] || "";
+
+        const classesToday = scheduleData.filter((item) => {
+          if (item.day !== dayOfWeek) return false;
+          const startDate = new Date(item.start);
+          const endDate = new Date(item.end);
+          return selectedDate >= startDate && selectedDate <= endDate;
+        });
+
+        classesToday.sort(
+          (a, b) =>
+            timeToMinutes(a.time.split("-")[0]) -
+            timeToMinutes(b.time.split("-")[0])
+        );
+
+        const tbody = document.getElementById("scheduleBody");
+        tbody.innerHTML = "";
+
+        if (classesToday.length === 0) {
+          document.getElementById("scheduleTable").style.display = "none";
+          document.getElementById("noClasses").style.display = "block";
+        } else {
+          classesToday.forEach((cls) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                        <td>${cls.time}</td>
+                        <td>${cls.subject}</td>
+                        <td>${cls.teacher}</td>
+                        <td>${cls.type}</td>
+                    `;
+            tbody.appendChild(row);
+          });
+          document.getElementById("scheduleTable").style.display = "table";
+          document.getElementById("noClasses").style.display = "none";
+        }
+      }
+
+      // Личный счётчик (только для вашего браузера, логирует в консоль)
+      function logPersonalVisits() {
+        let visits = localStorage.getItem("pageVisits") || 0;
+        visits = parseInt(visits) + 1;
+        localStorage.setItem("pageVisits", visits);
+        console.log(
+          `Это ваше посещение №${visits} этой страницы. Дата: ${new Date().toLocaleString()}`
+        );
+      }
+
+      // Функция для смены темы
+      function toggleTheme() {
+        document.body.classList.toggle("dark");
+      }
+
+      // Вызов функций при загрузке
+      showSchedule();
+      logPersonalVisits();
+
+      // Обновление при смене даты
+      document
+        .getElementById("datePicker")
+        .addEventListener("change", showSchedule);
+
+      // Смена темы по изменению чекбокса
+      document
+        .getElementById("hide-checkbox")
+        .addEventListener("change", toggleTheme);
+    </script>
+  </body>
+</html>
