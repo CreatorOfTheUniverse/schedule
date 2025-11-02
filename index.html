@@ -12,6 +12,7 @@
     <style>
       * {
         -webkit-tap-highlight-color: transparent;
+        box-sizing: border-box;
       }
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -119,27 +120,33 @@
         }
       }
 
-      #hide-checkbox {
+      /* Переключатель темы: изолированный контейнер для избежания конфликтов */
+      #toggle-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+      }
+
+      #toggle-container #hide-checkbox {
         opacity: 0;
         height: 0;
         width: 0;
       }
 
-      .toggle {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
+      #toggle-container .toggle {
+        position: relative;
         cursor: pointer;
         display: inline-block;
         width: 100px;
         height: 50px;
-        background: #211042;
+        background: #211042 !important;
         border-radius: 25px;
         transition: 500ms;
         overflow: hidden;
         -webkit-box-shadow: 0px 0px 7px 4px rgba(136, 143, 148, 0.2);
         -moz-box-shadow: 0px 0px 7px 4px rgba(136, 143, 148, 0.2);
-        box-shadow: 0px 0px 7px 4px rgba(136, 143, 148, 0.2);
+        box-shadow: 0px 0px 7px 4px rgba(136, 143, 148, 0.2) !important;
         -moz-user-select: none;
         -o-user-select: none;
         -khtml-user-select: none;
@@ -148,7 +155,7 @@
         user-select: none;
       }
 
-      .toggle-button {
+      #toggle-container .toggle-button {
         position: absolute;
         display: inline-block;
         top: 3.5px;
@@ -156,139 +163,141 @@
         width: 43px;
         height: 43px;
         border-radius: 50%;
-        background: #faeaf1;
+        background: #faeaf1 !important;
         overflow: hidden;
-        box-shadow: 0 0 17.5px 2px rgba(255, 255, 255);
+        box-shadow: 0 0 17.5px 2px rgba(255, 255, 255, 1) !important;
         transition: all 500ms ease-out;
       }
 
-      .crater {
+      #toggle-container .crater {
         position: absolute;
         display: inline-block;
-        background: #faeaf1;
+        background: #faeaf1 !important;
         border-radius: 50%;
         transition: 500ms;
+        opacity: 1 !important;
       }
 
-      .crater-1 {
-        background: #fffff9;
+      #toggle-container .crater-1 {
+        background: #fffff9 !important;
         width: 43px;
         height: 43px;
         left: 5px;
         bottom: 5px;
       }
 
-      .crater-2 {
+      #toggle-container .crater-2 {
         width: 10px;
         height: 10px;
         top: -3.5px;
         left: 22px;
       }
 
-      .crater-3 {
+      #toggle-container .crater-3 {
         width: 8px;
         height: 8px;
         top: 10px;
         right: -2px;
       }
 
-      .crater-4 {
+      #toggle-container .crater-4 {
         width: 5px;
         height: 5px;
         top: 12px;
         left: 15px;
       }
 
-      .crater-5 {
+      #toggle-container .crater-5 {
         width: 7.5px;
         height: 7.5px;
         top: 20px;
         left: 24px;
       }
 
-      .crater-6 {
+      #toggle-container .crater-6 {
         width: 5px;
         height: 5px;
         top: 24px;
         left: 10px;
       }
 
-      .crater-7 {
+      #toggle-container .crater-7 {
         width: 6px;
         height: 6px;
         bottom: 2.5px;
         left: 17.5px;
       }
 
-      .star {
+      #toggle-container .star {
         position: absolute;
         display: inline-block;
         border-radius: 50%;
-        background: #fff;
-        box-shadow: 0.5px 0 1px 1px rgba(255, 255, 255);
+        background: #fff !important;
+        box-shadow: 0.5px 0 1px 1px rgba(255, 255, 255, 1) !important;
+        opacity: 1 !important;
       }
 
-      .star-1 {
+      #toggle-container .star-1 {
         width: 3px;
         height: 3px;
         right: 45px;
         bottom: 20px;
       }
 
-      .star-2 {
+      #toggle-container .star-2 {
         width: 4px;
         height: 4px;
         right: 35px;
         top: 5px;
       }
 
-      .star-3 {
+      #toggle-container .star-3 {
         width: 2.5px;
         height: 2.5px;
         right: 30px;
         bottom: 7.5px;
       }
 
-      .star-4 {
+      #toggle-container .star-4 {
         width: 1.5px;
         height: 1.5px;
         right: 20px;
         bottom: 25px;
       }
 
-      .star-5 {
+      #toggle-container .star-5 {
         width: 2px;
         height: 2px;
         right: 5px;
         bottom: 17.5px;
       }
 
-      .star-6,
-      .star-7,
-      .star-8 {
+      #toggle-container .star-6,
+      #toggle-container .star-7,
+      #toggle-container .star-8 {
         width: 5px;
         height: 1px;
         border-radius: 1px;
         transform: rotate(-45deg);
-        box-shadow: 2.5px 0px 2px 0.5px #fff;
+        box-shadow: 2.5px 0px 2px 0.5px #fff !important;
         animation-name: travel;
         animation-duration: 1.5s;
         animation-timing-function: ease-out;
         animation-iteration-count: infinite;
       }
 
-      .star-6 {
+      #toggle-container .star-6 {
         right: 15px;
         bottom: 15px;
         animation-delay: -2s;
       }
 
-      .star-7 {
+      #toggle-container .star-7 {
         right: 25px;
         bottom: 30px;
       }
 
-      .star-8 {
+      #toggle-container .star-8 {
         right: 45px;
         top: 5px;
         animation-delay: -4s;
@@ -301,7 +310,7 @@
 
         50% {
           transform: rotate(-45deg) translateX(-10px);
-          box-shadow: 2.5px 0px 3px 0.5px #fff;
+          box-shadow: 2.5px 0px 3px 0.5px #fff !important;
         }
 
         100% {
@@ -313,97 +322,101 @@
         }
       }
 
-      #hide-checkbox:checked + .toggle {
-        background: #24d7f7;
+      #toggle-container #hide-checkbox:checked + .toggle {
+        background: #24d7f7 !important;
       }
 
-      #hide-checkbox:checked + .toggle .toggle-button {
-        background: #f7ffff;
+      #toggle-container #hide-checkbox:checked + .toggle .toggle-button {
+        background: #f7ffff !important;
         transform: translateX(51px);
-        box-shadow: 0 0 17.5px 2.5px rgba(255, 255, 255);
+        box-shadow: 0 0 17.5px 2.5px rgba(255, 255, 255, 1) !important;
       }
 
-      #hide-checkbox:checked + .toggle .toggle-button .crater {
+      #toggle-container #hide-checkbox:checked + .toggle .toggle-button .crater {
         transform: rotate(-45deg) translateX(35px);
+        background: rgba(255, 255, 255, 0.8) !important; /* Полупрозрачные для видимости на голубом */
+        opacity: 0.9 !important;
       }
 
-      #hide-checkbox:checked + .toggle .star {
+      #toggle-container #hide-checkbox:checked + .toggle .star {
         animation: move 2s infinite;
         transform: none;
         box-shadow: none;
+        background: rgba(255, 255, 255, 0.9) !important; /* Видимые лучи */
+        opacity: 0.95 !important;
       }
 
-      #hide-checkbox:checked + .toggle .star-1 {
+      #toggle-container #hide-checkbox:checked + .toggle .star-1 {
         width: 20px;
         height: 5px;
         border-radius: 5px;
-        background: #fff;
+        background: #fff !important;
         left: 10px;
         top: 12.5px;
         box-shadow: none;
       }
 
-      #hide-checkbox:checked + .toggle .star-2 {
+      #toggle-container #hide-checkbox:checked + .toggle .star-2 {
         width: 6px;
         height: 6px;
-        background: #fff;
+        background: #fff !important;
         left: 13px;
         top: 11.5px;
         box-shadow: -0.5px 0 1px 0 rgba(0, 0, 0, 0.1);
       }
 
-      #hide-checkbox:checked + .toggle .star-3 {
+      #toggle-container #hide-checkbox:checked + .toggle .star-3 {
         width: 8px;
         height: 8px;
-        background: #fff;
+        background: #fff !important;
         left: 17.5px;
         top: 9.5px;
         box-shadow: -0.5px 0 1px 0 rgba(0, 0, 0, 0.1);
       }
 
-      #hide-checkbox:checked + .toggle .star-4 {
+      #toggle-container #hide-checkbox:checked + .toggle .star-4 {
         width: 7px;
         height: 7px;
-        background: #fff;
+        background: #fff !important;
         left: 23px;
         top: 10.5px;
         box-shadow: -0.5px 0 1px 0 rgba(0, 0, 0, 0.1);
       }
 
-      #hide-checkbox:checked + .toggle .star-5 {
+      #toggle-container #hide-checkbox:checked + .toggle .star-5 {
         width: 30px;
         height: 7.5px;
         border-radius: 7.5px;
-        background: #fff;
+        background: #fff !important;
         left: 15px;
         bottom: 10px;
         box-shadow: none;
       }
 
-      #hide-checkbox:checked + .toggle .star-6 {
+      #toggle-container #hide-checkbox:checked + .toggle .star-6 {
         width: 9px;
         height: 9px;
-        background: #fff;
+        background: #fff !important;
         border-radius: 50%;
         left: 19px;
         bottom: 10px;
         box-shadow: -0.5px 0 1px 0 rgba(0, 0, 0, 0.1);
       }
 
-      #hide-checkbox:checked + .toggle .star-7 {
+      #toggle-container #hide-checkbox:checked + .toggle .star-7 {
         width: 12px;
         height: 12px;
-        background: #fff;
+        background: #fff !important;
         border-radius: 50%;
         left: 26px;
         bottom: 10px;
         box-shadow: -0.5px 0 1px 0 rgba(0, 0, 0, 0.1);
       }
 
-      #hide-checkbox:checked + .toggle .star-8 {
+      #toggle-container #hide-checkbox:checked + .toggle .star-8 {
         width: 10.5px;
         height: 10.5px;
-        background: #fff;
+        background: #fff !important;
         border-radius: 50%;
         left: 35px;
         top: 29.5px;
@@ -426,16 +439,20 @@
     </style>
   </head>
   <body class="dark">
-    <input type="checkbox" id="hide-checkbox" />
-    <label for="hide-checkbox" class="toggle">
-      <span class="toggle-button">
-        <span class="crater crater-1"></span>
-        <span class="crater crater-2"></span>
-        <span class="crater crater-3"></span>
-        <span class="crater crater-4"></span>
-        <span class="crater crater-5"></span>
-        <span class="crater crater-6"></span>
-        <span class="crater crater-7"></span>
+    <!-- Переключатель темы в изолированном контейнере -->
+    <div id="toggle-container">
+      <input type="checkbox" id="hide-checkbox" />
+      <label for="hide-checkbox" class="toggle">
+        <span class="toggle-button">
+          <span class="crater crater-1"></span>
+          <span class="crater crater-2"></span>
+          <span class="crater crater-3"></span>
+          <span class="crater crater-4"></span>
+          <span class="crater crater-5"></span>
+          <span class="crater crater-6"></span>
+          <span class="crater crater-7"></span>
+        </span>
+        <!-- Звёзды вынесены за пределы toggle-button, как в оригинале, для правильного позиционирования -->
         <span class="star star-1"></span>
         <span class="star star-2"></span>
         <span class="star star-3"></span>
@@ -444,8 +461,8 @@
         <span class="star star-6"></span>
         <span class="star star-7"></span>
         <span class="star star-8"></span>
-      </span>
-    </label>
+      </label>
+    </div>
 
     <h1>Расписание занятий для группы П-КРП-201М</h1>
     <p>1 семестр 2025–2026 учебного года, 2 курс магистратуры, очная форма.</p>
@@ -455,7 +472,6 @@
       <input
         type="date"
         id="datePicker"
-        value="2025-10-31"
         min="2025-09-01"
         max="2025-12-31"
       />
@@ -780,6 +796,11 @@
       }
 
       // Вызов функций при загрузке
+      const datePicker = document.getElementById("datePicker");
+      if (datePicker) {
+        const today = new Date().toISOString().split('T')[0];
+        datePicker.value = today;
+      }
       showSchedule();
       logPersonalVisits();
 
